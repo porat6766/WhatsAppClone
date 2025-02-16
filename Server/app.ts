@@ -3,8 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import path from "path";
-// import userRoutes from "./Routes/userRoutes";
-
+import userRoutes from "./Routes/userRoutes";
+import chatRoutes from "./Routes/chatRoutes";
+import messageRoutes from "./Routes/messageRoutes";
+import groupRoutes from "./Routes/groupRoutes";
+import callRoutes from "./Routes/callRoutes";
+import notificationRoutes from "./Routes/notificationRoutes";
 
 dotenv.config();
 
@@ -34,7 +38,6 @@ if (process.env.URI) {
     console.error("DB_URI environment variable is not defined");
 }
 
-// app.use("/api/users", userRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
@@ -44,6 +47,13 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
+
+app.use('/users', userRoutes);
+app.use('/chats', chatRoutes);
+app.use('/messages', messageRoutes);
+app.use('/groups', groupRoutes);
+app.use('/calls', callRoutes);
+app.use('/notifications', notificationRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
