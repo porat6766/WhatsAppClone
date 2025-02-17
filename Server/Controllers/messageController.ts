@@ -45,13 +45,23 @@ export const messageController = {
 
     updateMessageStatus: async (req: AuthRequest, res: Response) => {
         const { messageId } = req.params;
-        // Implement status update logic here
-        res.json({ message: "Message status updated" });
+        try {
+            const message = await Message.findByIdAndUpdate(messageId, { status: req.body.status }, { new: true });
+            if (!message) return res.status(404).json({ message: "Message not found" });
+            res.json({ message: "Message status updated" });
+        } catch (error) {
+            res.status(500).json({ error: "Error updating message status" });
+        }
     },
 
     deleteMessage: async (req: AuthRequest, res: Response) => {
         const { messageId } = req.params;
-        // Implement message deletion logic here
-        res.json({ message: "Message deleted" });
+        try {
+            const message = await Message.findByIdAndDelete(messageId);
+            if (!message) return res.status(404).json({ message: "Message not found" });
+            res.json({ message: "Message deleted" });
+        } catch (error) {
+            res.status(500).json({ error: "Error deleting message" });
+        }
     }
 };

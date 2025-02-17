@@ -7,10 +7,12 @@ const router = express.Router();
 router.post('/register', userController.register as RequestHandler);
 router.post('/login', userController.login as RequestHandler);
 router.get('/profile', authenticateUser, userController.getProfile as RequestHandler);
+router.get('/allProfile', authenticateUser, userController.getAllProfile as RequestHandler);
 router.put('/profile', authenticateUser, userController.updateProfile as RequestHandler);
 router.get('/contacts', authenticateUser, userController.getContacts as RequestHandler);
 router.post('/contacts', authenticateUser, userController.addContact as RequestHandler);
 router.put('/status', authenticateUser, userController.updateStatus as RequestHandler);
+router.delete('/profile', authenticateUser, userController.deleteProfile as RequestHandler);
 
 export default router;
 

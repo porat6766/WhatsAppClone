@@ -46,13 +46,37 @@ export const chatController = {
 
     getChatById: async (req: AuthRequest, res: Response) => {
         const chatId = req.params.chatId;
-        // Implement chat retrieval logic here
-        res.json({ message: "Get chat by ID" });
+        try {
+            const chat = await Chat.findById(chatId)
+                .populate('members', 'username profilePic isOnline')
+                .populate({
+                    path: 'lastMessage',
+                    select: 'text media status createdAt',
+                    populate: { path: 'sender', select: 'username' }
+                });
+
+            if (!chat) {
+                return res.status(404).json({ error: 'Chat not found' });
+            }
+
+            res.json(chat);
+        } catch (error) {
+            res.status(500).json({ error: 'Error fetching chat' });
+        }
     },
 
     deleteChat: async (req: AuthRequest, res: Response) => {
         const chatId = req.params.chatId;
-        // Implement chat deletion logic here
-        res.json({ message: "Chat deleted" });
+        try {
+            const chat = await Chat.findByIdAndDelete(chatId);
+
+            if (!chat) {
+                return res.status(404).json({ error: 'Chat not found' });
+            }
+
+            res.json({ message: 'Chat deleted successfully' });
+        } catch (error) {
+            res.status(500).json({ error: 'Error deleting chat' });
+        }
     }
 };
