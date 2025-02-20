@@ -81,3 +81,15 @@ export const deleteProfile = async (id: string) => {
         throw error.response?.data || error.message;
     }
 };
+
+export const getAllProfile = async () => {
+    try {
+        const response = await usersClient.get("/allProfile");
+        console.log(response.data);
+        return response.data;
+    } catch (error: any) {
+        console.error("Error logging in:", error.response?.data || error.message);
+        throw error.response?.data || error.message;
+    }
+};
+

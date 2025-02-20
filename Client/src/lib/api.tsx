@@ -28,3 +28,11 @@ export const chatsClient = axios.create({
   },
 });
 
+export const messagesClient = axios.create({
+  baseURL: "http://localhost:3000/messages",
+  headers: {
+    Accept: "application/json",
+    Authorization: `Bearer ${getAuthTokenFromCookie()}`,
+  },
+});
+

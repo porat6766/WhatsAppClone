@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
-import { Chat } from '../../types/types';
+import { User } from '../../types/types';
 
 interface SearchBarProps {
-    setChatsToRender: React.Dispatch<React.SetStateAction<Chat[]>>;
-    allChats: Chat[];
+    setUsersToRender: React.Dispatch<React.SetStateAction<User[] | undefined>>;
+    allProfiles: User[];
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ setChatsToRender, allChats }) => {
+
+export const SearchBar: React.FC<SearchBarProps> = ({ setUsersToRender, allProfiles }) => {
     const [searchQuery, setSearchQuery] = useState("");
 
+    useEffect(() => {
+        if (allProfiles) {
+            setUsersToRender(allProfiles);
+        }
+    }, [allProfiles]);
 
     const handleSearch = (query: string) => {
         setSearchQuery(query);
 
-        const filteredChats = allChats.filter((chat) =>
-            chat.members.some((member) =>
-                member.username.toLowerCase().includes(query.toLowerCase())
-            )
+        if (!query.trim()) {
+            setUsersToRender(allProfiles);
+            return;
+        }
+
+        const filteredChats = allProfiles?.filter((profile: any) =>
+            profile.username.toLowerCase().includes(query.toLowerCase())
         );
 
-        setChatsToRender(filteredChats);
+        setUsersToRender(filteredChats || []);
     };
-
 
     return (
         <div className="p-3">

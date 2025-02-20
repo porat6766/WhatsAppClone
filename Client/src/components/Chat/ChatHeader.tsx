@@ -1,20 +1,20 @@
 import React from 'react';
-import { User, Video, Phone, Search, MoreVertical } from 'lucide-react';
-import { Chat } from '../../types/types';
+import { Video, Phone, Search, MoreVertical } from 'lucide-react';
+import { User } from '../../types/types';
 
 interface ChatHeaderProps {
-    chat: Chat;
+    User: User;
 }
 
-export const ChatHeader: React.FC<ChatHeaderProps> = ({ chat }) => {
+export const ChatHeader: React.FC<ChatHeaderProps> = ({ User }) => {
     return (
         <div className="p-3 bg-gray-800 flex items-center justify-between">
             <div className="flex items-center">
                 <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-gray-300" />
+                    <img src={User?.profilePic} alt="Profile" className="w-full h-full object-cover rounded-full" />
                 </div>
                 <div className="ml-3">
-                    <span className="font-medium text-gray-200">{chat.name}</span>
+                    <span className="font-medium text-gray-200">{User?.username}</span>
                 </div>
             </div>
             <div className="flex items-center space-x-3">

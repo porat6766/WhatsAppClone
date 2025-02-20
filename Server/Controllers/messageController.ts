@@ -6,6 +6,8 @@ import Chat from '../models/chatModel';
 export const messageController = {
     async getChatMessages(req: AuthRequest, res: Response) {
         try {
+            console.log(req.params.chatId);
+
             const messages = await Message.find({
                 chat: req.params.chatId
             })

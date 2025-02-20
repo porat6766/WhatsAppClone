@@ -65,6 +65,16 @@ export const chatController = {
         }
     },
 
+    getChatByUserId: async (req: AuthRequest, res: Response) => {
+        const userId = req.params.userId;
+        try {
+            const chat = await Chat.find({ members: userId });
+            res.json(chat);
+        } catch (error) {
+            res.status(500).json({ error: 'Error fetching chat' });
+        }
+    },
+
     deleteChat: async (req: AuthRequest, res: Response) => {
         const chatId = req.params.chatId;
         try {
